@@ -21,7 +21,6 @@ Current Status:
 - [ ] Merge changes into tinymist mainline
 - [ ] Automated build
 - [x] Save workspace to pastebin and load workspace from pastebin
-- [ ] Multi-user editing
 
 = 欢迎
 
@@ -41,7 +40,6 @@ Current Status:
 - [ ] 将更改合入 tinymist 主线
 - [ ] 自动化构建
 - [x] 将 workspace 保存至 pastebin 及从 pastebin 加载 workspace
-- [ ] 多人编辑
 
 #pagebreak()
 
