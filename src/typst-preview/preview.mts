@@ -400,6 +400,8 @@ export function usePreviewComponent(
 			"typst-jump-ripple-effect .4s linear",
 		);
 	}
+	window.handleTypstLocation = (_, pageNo: number, x: number, y: number) =>
+		handleTypstLocation(pageNo, x, y);
 
 	function initTypstSvg(docRoot: SVGElement) {
 		rootElem = docRoot as TypstPreviewDocumentRootElement;
