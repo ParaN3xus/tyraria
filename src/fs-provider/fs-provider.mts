@@ -1,4 +1,3 @@
-import { URI } from "@codingame/monaco-vscode-api/vscode/vs/base/common/uri";
 import {
 	FileType,
 	InMemoryFileSystemProvider,
@@ -52,7 +51,11 @@ export class FileSystemProvider extends InMemoryFileSystemProvider {
 			const path = "/" + segments.slice(0, i + 1).join("/");
 			const dir = vscode.Uri.file(path);
 			if (!(await this.fileExists(dir))) {
-				await this.mkdir(dir);
+				try {
+					await this.mkdir(dir);
+				} catch (error) {
+					console.warn(`Failed to create directory ${path}, potential race condition:`, error);
+				}
 			}
 		}
 	}
@@ -81,12 +84,12 @@ export class FileSystemProvider extends InMemoryFileSystemProvider {
 		files: Record<string, string>,
 	): Promise<void> {
 		try {
-			const uri = URI.file(dirPath);
+			const uri = vscode.Uri.file(dirPath);
 			const entries = await this.readdir(uri);
 
 			for (const [name, type] of entries) {
 				const fullPath = `${dirPath}/${name}`;
-				const fileUri = URI.file(fullPath);
+				const fileUri = vscode.Uri.file(fullPath);
 
 				if (type === FileType.File) {
 					try {
@@ -131,7 +134,7 @@ export class FileSystemProvider extends InMemoryFileSystemProvider {
 		}
 	}
 
-	async empty(): Promise<URI> {
+	async empty(): Promise<vscode.Uri> {
 		await this.delete(defaultWorkspaceUri, {
 			recursive: true,
 			useTrash: false,
